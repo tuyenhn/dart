@@ -1,3 +1,25 @@
+#' Calculate average of raster pixels in a buffer for each geometry feature of sf object
+#'
+#' @param sf sf object
+#' @param raster stars object
+#' @param null_sentinel value representing null in raster (default: -9999)
+#' @param buffer_rad radius of buffer around the centroid of geometry feature (optional)
+#'
+#' @return A dataframe
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # read in gson vector
+#' hcmc_gson <- st_read(
+#'   readChar(gson_fname, file.info(gson_fname)$size),
+#'   quiet = TRUE
+#' )
+#' # read raster
+#' raster <- stars::read_stars(r_fname)
+#'
+#' avg_df <- dart_process(hcmc_gson, raster)
+#' }
 dart_process <- function(sf,
                          raster,
                          null_sentinel = -9999,
