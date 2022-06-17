@@ -41,7 +41,7 @@ dart_process <- function(sf,
 
 
 dart_process_ <- function(sf,
-                           raster,
+                          raster,
                           null_sentinel,
                           buffer_rad) {
     # get centroids for each commune/ward
@@ -82,8 +82,8 @@ dart_process_ <- function(sf,
 
     # spatially join raster and buffer (only take pixels inside the buffers)
     df_sf <- sf::st_join(r_sf, buffers_sf) %>%
-        tidyr::drop_na(ID_3)
-    colnames(df_sf)[1] <- "val" # quick column rename
+        na.omit() %>%
+        rename(val = colnames(df_sf)[1])
 
     # calculate distances between centroid and pixel centroid for each commune/ward
     df_sf$r_centroid <- dart_centroid(df_sf["geometry"], 9210)$centroid
