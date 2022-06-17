@@ -1,7 +1,8 @@
 #' sf::st_centroid() wrapper with optional CRS transformation
 #'
 #' @param sf sf object
-#' @param target_crs CRS which the centroid calculation will be performed with (optional)
+#' @param target_crs CRS which the centroid calculation will be performed
+#'                   with (optional)
 #'
 #' @return original sf object with new centroid column
 #' @export
@@ -10,8 +11,8 @@
 #' \dontrun{
 #' # read in gson vector
 #' hcmc_gson <- st_read(
-#'   readChar(gson_fname, file.info(gson_fname)$size),
-#'   quiet = TRUE
+#'     readChar(gson_fname, file.info(gson_fname)$size),
+#'     quiet = TRUE
 #' )
 #'
 #' hcmc_gson_w_centroid <- dart_centroid(hcmc_gson, 9210)

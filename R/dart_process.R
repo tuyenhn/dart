@@ -1,9 +1,11 @@
-#' Calculate average of raster pixels in a buffer for each geometry feature of sf object
+#' Calculate average of raster pixels in a buffer for each geometry
+#' feature of an sf object
 #'
 #' @param sf sf object
 #' @param raster stars object
 #' @param null_sentinel value representing null in raster (default: -9999)
-#' @param buffer_rad radius of buffer around the centroid of geometry feature (optional)
+#' @param buffer_rad radius of buffer around the centroid of
+#'                   geometry feature (optional)
 #'
 #' @return A dataframe
 #' @export
@@ -12,8 +14,8 @@
 #' \dontrun{
 #' # read in gson vector
 #' hcmc_gson <- st_read(
-#'   readChar(gson_fname, file.info(gson_fname)$size),
-#'   quiet = TRUE
+#'     readChar(gson_fname, file.info(gson_fname)$size),
+#'     quiet = TRUE
 #' )
 #' # read raster
 #' raster <- stars::read_stars(r_fname)
@@ -33,10 +35,12 @@ dart_process <- function(sf,
     if (class(buffer_rad) != "numeric" || buffer_rad < 0) {
         stop("raster must be a positive number", call. = FALSE)
     }
-    dart_process_(sf = sf,
-                  raster = raster,
-                  null_sentinel = null_sentinel,
-                  buffer_rad = buffer_rad)
+    dart_process_(
+        sf = sf,
+        raster = raster,
+        null_sentinel = null_sentinel,
+        buffer_rad = buffer_rad
+    )
 }
 
 
@@ -85,7 +89,8 @@ dart_process_ <- function(sf,
         na.omit() %>%
         rename(val = colnames(df_sf)[1])
 
-    # calculate distances between centroid and pixel centroid for each commune/ward
+    # calculate distances between centroid and pixel centroid for each
+    # geometry feature
     df_sf$r_centroid <- dart_centroid(df_sf["geometry"], 9210)$centroid
     df_sf$cent_dist <- sf::st_distance(
         df_sf$centroid, df_sf$r_centroid,

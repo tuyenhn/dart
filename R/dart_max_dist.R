@@ -1,7 +1,9 @@
-#' Calculate maximum distance from centroid of geometry feature to its boundaries
+#' Calculate maximum distance from centroid of geometry feature to its
+#' boundaries
 #'
 #' @param geo_feature geometry feature (polygon with coordinates)
-#' @param with_centroid centroid information is included with geo_feature (default: FALSE)
+#' @param with_centroid centroid information is included with geo_feature
+#'                      (default: FALSE)
 #'
 #' @return A "units"
 #' @export
