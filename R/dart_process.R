@@ -87,7 +87,7 @@ dart_process_ <- function(sf,
     # spatially join raster and buffer (only take pixels inside the buffers)
     df_sf <- sf::st_join(r_sf, buffers_sf) %>%
         na.omit() %>%
-        rename(val = colnames(df_sf)[1])
+        rename(val = colnames(.)[1])
 
     # calculate distances between centroid and pixel centroid for each
     # geometry feature
