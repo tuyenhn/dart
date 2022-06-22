@@ -2,27 +2,30 @@
 % Please edit documentation in R/dart_max_dist.R
 \name{dart_max_dist}
 \alias{dart_max_dist}
-\title{Calculate maximum distance from centroid of geometry feature to its boundaries}
+\title{Calculate maximum distance from centroid of geometry feature to its
+boundaries}
 \usage{
 dart_max_dist(geo_feature, with_centroid = FALSE)
 }
 \arguments{
 \item{geo_feature}{geometry feature (polygon with coordinates)}
 
-\item{with_centroid}{centroid information is included with geo_feature (default: FALSE)}
+\item{with_centroid}{centroid information is included with geo_feature
+(default: FALSE)}
 }
 \value{
 A "units"
 }
 \description{
-Calculate maximum distance from centroid of geometry feature to its boundaries
+Calculate maximum distance from centroid of geometry feature to its
+boundaries
 }
 \examples{
 \dontrun{
 # read in gson vector
 hcmc_gson <- st_read(
-  readChar(gson_fname, file.info(gson_fname)$size),
-  quiet = TRUE
+    readChar(gson_fname, file.info(gson_fname)$size),
+    quiet = TRUE
 )
 
 # geo features without centroid

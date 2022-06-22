@@ -1,10 +1,16 @@
 Package: dart
-Title: What the Package Does (One Line, Title Case)
+Title: Companion R package for the DART (Dengue Advanced Readiness Tools) 
+    project by OUCRU.
 Version: 0.0.0.9000
 Authors@R: 
     person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: This package provides functions that performs raster spatial 
+    analysis and processing to be used in the DART (Dengue Advanced Readiness 
+    Tools) project by OUCRU, in collaboration with RMIT University Vietnam. The 
+    main function of this package calculates the average of raster pixel values 
+    in a buffer around a geometric feature (i.e. Average rainfall of a 
+    commune/ward in a city).
 License: MIT + file LICENSE
 Imports: 
     dplyr,

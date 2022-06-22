@@ -9,7 +9,8 @@ dart_centroid(sf, target_crs = 4326)
 \arguments{
 \item{sf}{sf object}
 
-\item{target_crs}{CRS which the centroid calculation will be performed with (optional)}
+\item{target_crs}{CRS which the centroid calculation will be performed
+with (optional)}
 }
 \value{
 original sf object with new centroid column
@@ -21,8 +22,8 @@ sf::st_centroid() wrapper with optional CRS transformation
 \dontrun{
 # read in gson vector
 hcmc_gson <- st_read(
-  readChar(gson_fname, file.info(gson_fname)$size),
-  quiet = TRUE
+    readChar(gson_fname, file.info(gson_fname)$size),
+    quiet = TRUE
 )
 
 hcmc_gson_w_centroid <- dart_centroid(hcmc_gson, 9210)
