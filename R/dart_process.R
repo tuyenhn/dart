@@ -33,7 +33,7 @@ dart_process <- function(sf,
         stop("raster must be of class `stars`", call. = FALSE)
     }
     if (class(buffer_rad) != "numeric" || buffer_rad < 0) {
-        stop("raster must be a positive number", call. = FALSE)
+        stop("buffer radius must be a positive number", call. = FALSE)
     }
     dart_process_(
         sf = sf,

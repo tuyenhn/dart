@@ -1,6 +1,6 @@
 Package: dart
 Title: Companion R package for the DART (Dengue Advanced Readiness Tools) 
-    project by OUCRU.
+    project by OUCRU
 Version: 0.0.0.9000
 Authors@R: 
     person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),

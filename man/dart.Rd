@@ -5,5 +5,9 @@
 \alias{dart}
 \title{dart: under construction}
 \description{
-This package is under construction
+This package provides functions that performs raster spatial analysis and
+processing to be used in the DART (Dengue Advanced Readiness Tools) project
+by OUCRU, in collaboration with RMIT University Vietnam. The main function of
+this package calculates the average of raster pixel values in a buffer around
+a geometric feature (i.e. Average rainfall of a commune/ward in a city)
 }
