@@ -19,9 +19,8 @@
 #' get_max_dist(feature_with_centroid, feature_with_centroid$centroid)
 #' }
 dart_max_dist <- function(geo_feature, centroid) {
-    dist <- geo_feature %>%
+    geo_feature %>%
         sf::st_cast("POINT", warn = FALSE) %>%
-        sf::st_distance(centroid)
-
-    max(dist)
+        sf::st_distance(centroid) %>%
+        max()
 }
