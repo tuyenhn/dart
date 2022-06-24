@@ -28,7 +28,7 @@ dart_process <- function(sf,
                          sf_crs = 4326,
                          null_sentinel = -9999,
                          buffer_rad = 0) {
-    if (!class(sf)[1] == "sf")) {
+    if (!class(sf)[1] == "sf") {
         stop("sf must be of class `sf`", call. = FALSE)
     }
     if (class(raster) != "stars") {
