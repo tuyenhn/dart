@@ -5,13 +5,12 @@
 \title{Calculate maximum distance from centroid of geometry feature to its
 boundaries}
 \usage{
-dart_max_dist(geo_feature, with_centroid = FALSE)
+dart_max_dist(geo_feature, centroid)
 }
 \arguments{
 \item{geo_feature}{geometry feature (polygon with coordinates)}
 
-\item{with_centroid}{centroid information is included with geo_feature
-(default: FALSE)}
+\item{centroid}{centroid information column}
 }
 \value{
 A "units"
@@ -28,11 +27,7 @@ hcmc_gson <- st_read(
     quiet = TRUE
 )
 
-# geo features without centroid
-get_max_dist(hcmc_gson[1, ])
-
-# geo features comes with centroid
 feature_with_centroid <- centroid_with_crs(hcmc_gson[1, ], 9210)
-get_max_dist(feature_with_centroid, with_centroid = TRUE)
+get_max_dist(feature_with_centroid, feature_with_centroid$centroid)
 }
 }

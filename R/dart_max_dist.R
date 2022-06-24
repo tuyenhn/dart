@@ -2,8 +2,7 @@
 #' boundaries
 #'
 #' @param geo_feature geometry feature (polygon with coordinates)
-#' @param with_centroid centroid information is included with geo_feature
-#'                      (default: FALSE)
+#' @param centroid centroid information column
 #'
 #' @return A "units"
 #' @export
@@ -16,21 +15,13 @@
 #'     quiet = TRUE
 #' )
 #'
-#' # geo features without centroid
-#' get_max_dist(hcmc_gson[1, ])
-#'
-#' # geo features comes with centroid
 #' feature_with_centroid <- centroid_with_crs(hcmc_gson[1, ], 9210)
-#' get_max_dist(feature_with_centroid, with_centroid = TRUE)
+#' get_max_dist(feature_with_centroid, feature_with_centroid$centroid)
 #' }
-dart_max_dist <- function(geo_feature, with_centroid = FALSE) {
-    if (!with_centroid) {
-        geo_feature <- dart_centroid(geo_feature, 9210)
-    }
-
+dart_max_dist <- function(geo_feature, centroid) {
     dist <- geo_feature %>%
         sf::st_cast("POINT", warn = FALSE) %>%
-        sf::st_distance(.$centroid)
+        sf::st_distance(centroid)
 
     max(dist)
 }

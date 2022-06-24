@@ -55,7 +55,7 @@ dart_process_ <- function(sf,
     rad <- seq_len(0)
     if (!buffer_rad) {
         for (i in seq_len(nrow(sf))) {
-            rad[[i]] <- dart_max_dist(sf[i, ])
+            rad[[i]] <- dart_max_dist(sf[i, ], sf[i, ]$centroid)
         }
         buffer_rad <- max(rad)
     }
