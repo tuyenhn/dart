@@ -3,6 +3,7 @@
 #'
 #' @param sf sf object
 #' @param raster stars object
+#' @param sf_crs projection CRS that will be used to calculate (default: 4326)
 #' @param null_sentinel value representing null in raster (default: -9999)
 #' @param buffer_rad radius of buffer around the centroid of
 #'                   geometry feature (optional)
@@ -20,10 +21,11 @@
 #' # read raster
 #' raster <- stars::read_stars(r_fname)
 #'
-#' avg_df <- dart_process(hcmc_gson, raster)
+#' avg_df <- dart_process(hcmc_gson, raster, 9210)
 #' }
 dart_process <- function(sf,
                          raster,
+                         sf_crs = 4326,
                          null_sentinel = -9999,
                          buffer_rad = 0) {
     if (!(is.data.frame(sf) && class(sf)[1] == "sf")) {
@@ -32,12 +34,16 @@ dart_process <- function(sf,
     if (class(raster) != "stars") {
         stop("raster must be of class `stars`", call. = FALSE)
     }
+    if (class(sf_crs) != "numeric") {
+        stop("sf_crs must be a number", call. = FALSE)
+    }
     if (class(buffer_rad) != "numeric" || buffer_rad < 0) {
         stop("buffer radius must be a positive number", call. = FALSE)
     }
     dart_process_(
         sf = sf,
         raster = raster,
+        sf_crs = sf_crs,
         null_sentinel = null_sentinel,
         buffer_rad = buffer_rad
     )
@@ -46,10 +52,11 @@ dart_process <- function(sf,
 
 dart_process_ <- function(sf,
                           raster,
+                          sf_crs,
                           null_sentinel,
                           buffer_rad) {
     # get centroids for each commune/ward
-    centroids <- dart_centroid(sf, 9210)
+    centroids <- dart_centroid(sf, sf_crs)
 
     # calculate max buffer radius
     rad <- seq_len(0)
@@ -91,7 +98,7 @@ dart_process_ <- function(sf,
 
     # calculate distances between centroid and pixel centroid for each
     # geometry feature
-    df_sf$r_centroid <- dart_centroid(df_sf["geometry"], 9210)$centroid
+    df_sf$r_centroid <- dart_centroid(df_sf["geometry"], sf_crs)$centroid
     df_sf$cent_dist <- sf::st_distance(
         df_sf$centroid, df_sf$r_centroid,
         by_element = TRUE
