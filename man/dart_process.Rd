@@ -5,12 +5,14 @@
 \title{Calculate average of raster pixels in a buffer for each geometry
 feature of an sf object}
 \usage{
-dart_process(sf, raster, null_sentinel = -9999, buffer_rad = 0)
+dart_process(sf, raster, sf_crs = 4326, null_sentinel = -9999, buffer_rad = 0)
 }
 \arguments{
 \item{sf}{sf object}
 
 \item{raster}{stars object}
+
+\item{sf_crs}{projection CRS that will be used to calculate (default: 4326)}
 
 \item{null_sentinel}{value representing null in raster (default: -9999)}
 
@@ -34,6 +36,6 @@ hcmc_gson <- st_read(
 # read raster
 raster <- stars::read_stars(r_fname)
 
-avg_df <- dart_process(hcmc_gson, raster)
+avg_df <- dart_process(hcmc_gson, raster, 9210)
 }
 }
