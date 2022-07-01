@@ -89,7 +89,7 @@ dart_process_ <- function(sf,
     buffers_sf <- buffers %>%
         sf::st_as_sf() %>%
         mutate(centroid = centroids$centroid) %>%
-        mutate(ID_3 = centroids$ID_3)
+        mutate(id = centroids$ID_3)
 
     # spatially join raster and buffer (only take pixels inside the buffers)
     df_sf <- sf::st_join(r_sf, buffers_sf) %>%
@@ -109,7 +109,7 @@ dart_process_ <- function(sf,
 
     df_sf %>%
         by(
-            .$ID_3,
+            .$id,
             FUN = function(x) {
                 sum((x$val) / (x$cent_dist)) / sum(1 / (x$cent_dist))
             }
