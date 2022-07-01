@@ -19,6 +19,20 @@
 #' get_max_dist(feature_with_centroid, feature_with_centroid$centroid)
 #' }
 dart_max_dist <- function(geo_feature, centroid) {
+    if (!class(geo_feature)[1] == "sf") {
+        stop("geo_feature must be of class `sf`", call. = FALSE)
+    }
+    if (!class(centroid)[1] == "sfc_POINT") {
+        stop("centroid must be of class `sfc_POINT`", call. = FALSE)
+    }
+
+    dart_max_dist_(
+        geo_feature = geo_feature,
+        centroid = centroid
+    )
+}
+
+dart_max_dist_ <- function(geo_feature, centroid) {
     geo_feature %>%
         sf::st_cast("POINT", warn = FALSE) %>%
         sf::st_distance(centroid) %>%
