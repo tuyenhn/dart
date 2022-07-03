@@ -56,7 +56,7 @@ dart_process_ <- function(sf,
                           null_sentinel,
                           buffer_rad) {
     # get centroids for each commune/ward
-    centroids <- dart_centroid(sf, sf_crs)
+    sf <- dart_centroid(sf, sf_crs)
 
     # calculate max buffer radius
     rad <- seq_len(0)
@@ -72,7 +72,7 @@ dart_process_ <- function(sf,
 
     # create buffers around *centroids*
     buffers <- sf::st_buffer(
-        centroids[seq_len(nrow(centroids)), "geometry"],
+        sf[seq_len(nrow(sf)), "centroid"],
         dist = buffer_rad
     )
 
@@ -88,8 +88,8 @@ dart_process_ <- function(sf,
     # convert buffers to sf with centroids and commune/ward ID
     buffers_sf <- buffers %>%
         sf::st_as_sf() %>%
-        mutate(centroid = centroids$centroid) %>%
-        mutate(id = centroids$ID_3)
+        mutate(centroid = sf$centroid) %>%
+        mutate(id = sf$ID_3)
 
     # spatially join raster and buffer (only take pixels inside the buffers)
     df_sf <- sf::st_join(r_sf, buffers_sf) %>%
