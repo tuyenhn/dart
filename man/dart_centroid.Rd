@@ -4,7 +4,7 @@
 \alias{dart_centroid}
 \title{sf::st_centroid() wrapper with optional CRS transformation}
 \usage{
-dart_centroid(sf, target_crs = 4326)
+dart_centroid(sf, target_crs = 4326, output_crs = 4326)
 }
 \arguments{
 \item{sf}{sf object}
