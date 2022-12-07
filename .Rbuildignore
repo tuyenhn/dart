@@ -2,3 +2,5 @@
 ^\.Rproj\.user$
 ^dart\.Rproj$
 ^LICENSE\.md$
+
+^\.github$
