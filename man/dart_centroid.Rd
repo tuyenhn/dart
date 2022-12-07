@@ -11,6 +11,8 @@ dart_centroid(sf, target_crs = 4326, output_crs = 4326)
 
 \item{target_crs}{CRS which the centroid calculation will be performed
 with (optional)}
+
+\item{output_crs}{CRS which the function will return}
 }
 \value{
 original sf object with new centroid column

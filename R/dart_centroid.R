@@ -3,6 +3,7 @@
 #' @param sf sf object
 #' @param target_crs CRS which the centroid calculation will be performed
 #'                   with (optional)
+#' @param output_crs CRS which the function will return
 #'
 #' @return original sf object with new centroid column
 #' @export
