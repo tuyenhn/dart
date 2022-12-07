@@ -28,16 +28,16 @@ dart_process <- function(sf,
                          sf_crs = 4326,
                          null_sentinel = -9999,
                          buffer_rad = 0) {
-    if (!class(sf)[1] == "sf") {
+    if (!inherits(sf, "sf")) {
         stop("sf must be of class `sf`", call. = FALSE)
     }
-    if (class(raster) != "stars") {
+    if (!inherits(raster, "stars")) {
         stop("raster must be of class `stars`", call. = FALSE)
     }
-    if (class(sf_crs) != "numeric") {
+    if (!is.numeric(sf_crs)) {
         stop("sf_crs must be a number", call. = FALSE)
     }
-    if (class(buffer_rad) != "numeric" || buffer_rad < 0) {
+    if (!is.numeric(buffer_rad) != "numeric" || buffer_rad < 0) {
         stop("buffer radius must be a positive number", call. = FALSE)
     }
     dart_process_(

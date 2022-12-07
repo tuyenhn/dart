@@ -22,10 +22,10 @@ dart_centroid <- function(sf, target_crs = 4326, output_crs = 4326) {
     if (!class(sf)[1] == "sf") {
         stop("sf must be of class `sf`", call. = FALSE)
     }
-    if (class(target_crs) != "numeric") {
+    if (!is.numeric(target_crs)) {
         stop("target_crs must be a number", call. = FALSE)
     }
-    if (class(output_crs) != "numeric") {
+    if (!is.numeric(output_crs)) {
         stop("output_crs must be a number", call. = FALSE)
     }
 
