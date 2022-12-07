@@ -1,10 +1,10 @@
+Type: Package
 Package: dart
 Title: Companion R package for the DART (Dengue Advanced Readiness Tools) 
     project by OUCRU
-Version: 0.1.0.0000
-Authors@R: 
-    person("Tuyen", "Huynh", , "hntuyen282@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+Version: 0.1.0
+Author: Tuyen Huynh
+Maintainer: Tuyen Huynh <tuyenhn@oucru.org>
 Description: This package provides functions that performs raster spatial 
     analysis and processing to be used in the DART (Dengue Advanced Readiness 
     Tools) project by OUCRU, in collaboration with RMIT University Vietnam. The 
@@ -19,7 +19,4 @@ Imports:
     units
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
-Suggests: 
-    testthat (>= 3.0.0)
-Config/testthat/edition: 3
+RoxygenNote: 7.2.1
