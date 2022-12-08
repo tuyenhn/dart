@@ -37,7 +37,7 @@ dart_centroid <- function(sf, target_crs = 4326, output_crs = 4326) {
 }
 
 dart_centroid_ <- function(sf, target_crs, output_crs) {
-    sf %>% mutate(
+    sf %>% dplyr::mutate(
         centroid = sf::st_transform(sf, sf::st_crs(target_crs)) %>%
             sf::st_centroid() %>%
             sf::st_transform(sf::st_crs(output_crs)) %>%

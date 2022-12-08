@@ -67,13 +67,13 @@ dart_process_ <- function(sf,
     # convert cropped raster to sf
     r_sf <- sf::st_as_sf(cropped_raster)
 
-    # create a temporary `sf` with only id
+    # create a temporary `sf` with only id and centroid
     temp_sf <- sf[, c("ID_3", "centroid")]
 
     # spatially join raster and buffer (only take pixels inside the buffers)
     df_sf <- sf::st_join(r_sf, temp_sf) %>%
-        na.omit() %>%
-        rename(val = colnames(.)[1])
+        stats::na.omit() %>%
+            dplyr::rename(val = colnames(.)[1])
 
     # calculate distances between centroid and pixel centroid for each
     # geometry feature
@@ -81,7 +81,7 @@ dart_process_ <- function(sf,
     df_sf$cent_dist <- sf::st_distance(
         df_sf$centroid, df_sf$r_centroid,
         by_element = TRUE
-    ) %>% drop_units()
+    ) %>% units::drop_units()
 
     # dropping nulls
     df_sf <- df_sf[!(df_sf$val == null_sentinel), ]
