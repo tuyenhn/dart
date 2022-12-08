@@ -58,41 +58,20 @@ dart_process_ <- function(sf,
     # get centroids for each commune/ward
     sf <- dart_centroid(sf, sf_crs)
 
-    # calculate max buffer radius
-    rad <- seq_len(0)
-    if (!buffer_rad) {
-        for (i in seq_len(nrow(sf))) {
-            rad[[i]] <- dart_max_dist(sf[i, ], sf[i, ]$centroid)
-        }
-        buffer_rad <- max(rad)
-    }
-    units(buffer_rad) <- as_units("m")
-    # TODO: not final solution
-    # 13761.42 (hcmc)
-
-    # create buffers around *centroids*
-    buffers <- sf::st_buffer(
-        sf[seq_len(nrow(sf)), "centroid"],
-        dist = buffer_rad
-    )
-
-    # create bounding box around buffers
-    buffers_bbox <- sf::st_bbox(buffers)
+    # create bounding box around inputted `sf` object
+    sf_bbox <- sf::st_bbox(sf)
 
     # crop the raster to the bouding box
-    cropped_raster <- sf::st_crop(raster, buffers_bbox)
+    cropped_raster <- sf::st_crop(raster, sf_bbox)
 
     # convert cropped raster to sf
     r_sf <- sf::st_as_sf(cropped_raster)
 
-    # convert buffers to sf with centroids and commune/ward ID
-    buffers_sf <- buffers %>%
-        sf::st_as_sf() %>%
-        mutate(centroid = sf$centroid) %>%
-        mutate(id = sf$ID_3)
+    # create a temporary `sf` with only id
+    temp_sf <- sf[, c("ID_3", "centroid")]
 
     # spatially join raster and buffer (only take pixels inside the buffers)
-    df_sf <- sf::st_join(r_sf, buffers_sf) %>%
+    df_sf <- sf::st_join(r_sf, temp_sf) %>%
         na.omit() %>%
         rename(val = colnames(.)[1])
 
@@ -109,7 +88,7 @@ dart_process_ <- function(sf,
 
     df_sf %>%
         by(
-            .$id,
+            .$ID_3,
             FUN = function(x) {
                 sum((x$val) / (x$cent_dist)) / sum(1 / (x$cent_dist))
             }
