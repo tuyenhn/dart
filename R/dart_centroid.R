@@ -41,6 +41,6 @@ dart_centroid_ <- function(sf, target_crs, output_crs) {
         centroid = sf::st_transform(sf, sf::st_crs(target_crs)) %>%
             sf::st_centroid() %>%
             sf::st_transform(sf::st_crs(output_crs)) %>%
-            .$geometry
+            dplyr::pull("geometry")
     )
 }
