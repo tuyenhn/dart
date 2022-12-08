@@ -10,7 +10,7 @@ name: R
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "new_averaging" ]
   pull_request:
     branches: [ "master" ]
 
