@@ -3,10 +3,9 @@
 #'
 #' @param sf sf object
 #' @param raster stars object
+#' @param id_col name of column in `sf` that holds features unique ids
 #' @param sf_crs projection CRS that will be used to calculate (default: 4326)
 #' @param null_sentinel value representing null in raster (default: -9999)
-#' @param buffer_rad radius of buffer around the centroid of
-#'                   geometry feature (optional)
 #'
 #' @return A dataframe
 #' @export
@@ -23,38 +22,33 @@
 #'
 #' avg_df <- dart_process(hcmc_gson, raster, 9210)
 #' }
-dart_process <- function(sf,
-                         raster,
-                         sf_crs = 4326,
-                         null_sentinel = -9999,
-                         buffer_rad = 0) {
+dart_process <- function(sf, raster, id_col, sf_crs = 4326, null_sentinel = -9999) {
     if (!inherits(sf, "sf")) {
         stop("sf must be of class `sf`", call. = FALSE)
     }
     if (!inherits(raster, "stars")) {
         stop("raster must be of class `stars`", call. = FALSE)
     }
+    if (!(id_col %in% colnames(sf))) {
+        stop("id_col must be a column name in `sf`", call. = FALSE)
+    }
     if (!is.numeric(sf_crs)) {
         stop("sf_crs must be a number", call. = FALSE)
     }
-    if (!is.numeric(buffer_rad) != "numeric" || buffer_rad < 0) {
-        stop("buffer radius must be a positive number", call. = FALSE)
+    if (!is.numeric(null_sentinel) != "numeric") {
+        stop("null_sentinel must be a number", call. = FALSE)
     }
     dart_process_(
         sf = sf,
         raster = raster,
+        id_col = id_col,
         sf_crs = sf_crs,
-        null_sentinel = null_sentinel,
-        buffer_rad = buffer_rad
+        null_sentinel = null_sentinel
     )
 }
 
 
-dart_process_ <- function(sf,
-                          raster,
-                          sf_crs,
-                          null_sentinel,
-                          buffer_rad) {
+dart_process_ <- function(sf, raster, id_col, sf_crs, null_sentinel) {
     # get centroids for each commune/ward
     sf <- dart_centroid(sf, sf_crs)
 
@@ -68,7 +62,7 @@ dart_process_ <- function(sf,
     r_sf <- sf::st_as_sf(cropped_raster)
 
     # create a temporary `sf` with only id and centroid
-    temp_sf <- sf[, c("ID_3", "centroid")]
+    temp_sf <- sf[, c(id_col, "centroid")]
 
     # spatially join raster and buffer (only take pixels inside the buffers)
     df_sf <- sf::st_join(r_sf, temp_sf) %>%
@@ -88,7 +82,7 @@ dart_process_ <- function(sf,
 
     df_sf %>%
         by(
-            .$ID_3,
+            dplyr::pull(df_sf, id_col),
             FUN = function(x) {
                 sum((x$val) / (x$cent_dist)) / sum(1 / (x$cent_dist))
             }
