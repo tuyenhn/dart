@@ -21,13 +21,13 @@ original sf object with new centroid column
 sf::st_centroid() wrapper with optional CRS transformation
 }
 \examples{
-\dontrun{
-# read in gson vector
-hcmc_gson <- st_read(
-    readChar(gson_fname, file.info(gson_fname)$size),
-    quiet = TRUE
-)
+if (rlang::is_installed("geodata")){
+    vnm_lvl3 <- geodata::gadm("VNM", level = 3, path = "vnm_lvl3")
+    vnm_lvl3_sf <- sf::st_as_sf(vnm_lvl3)
 
-hcmc_gson_w_centroid <- dart_centroid(hcmc_gson, 9210)
+    vnm_w_centroid <- dart_centroid(vnm_lvl3_sf, 9210)
+
+    # cleanup
+    unlink("vnm_lvl3", recursive = TRUE)
 }
 }

@@ -5,19 +5,18 @@
 \title{Calculate average of raster pixels in a buffer for each geometry
 feature of an sf object}
 \usage{
-dart_process(sf, raster, sf_crs = 4326, null_sentinel = -9999, buffer_rad = 0)
+dart_process(sf, raster, id_col, sf_crs = 4326, null_sentinel = -9999)
 }
 \arguments{
 \item{sf}{sf object}
 
 \item{raster}{stars object}
 
+\item{id_col}{name of column in \code{sf} that holds features unique ids}
+
 \item{sf_crs}{projection CRS that will be used to calculate (default: 4326)}
 
 \item{null_sentinel}{value representing null in raster (default: -9999)}
-
-\item{buffer_rad}{radius of buffer around the centroid of
-geometry feature (optional)}
 }
 \value{
 A dataframe
@@ -27,15 +26,24 @@ Calculate average of raster pixels in a buffer for each geometry
 feature of an sf object
 }
 \examples{
-\dontrun{
-# read in gson vector
-hcmc_gson <- st_read(
-    readChar(gson_fname, file.info(gson_fname)$size),
-    quiet = TRUE
-)
-# read raster
-raster <- stars::read_stars(r_fname)
+if (rlang::is_installed("geodata") &&
+    rlang::is_installed("chirps") &&
+    rlang::is_installed("stars")) {
+    vnm_lvl3 <- geodata::gadm("VNM", level = 3, path = "vnm_lvl3")
+    hcmc_lvl3 <- vnm_lvl3[vnm_lvl3$NAME_1 == "Hồ Chí Minh", ]
+    hcmc_lvl3_sf <- sf::st_as_sf(hcmc_lvl3)
 
-avg_df <- dart_process(hcmc_gson, raster, 9210)
+    # read raster
+    raster <- chirps::get_chirps(
+        hcmc_lvl3,
+        c("2022-01-01", "2022-01-03"),
+        server = "CHC",
+        as.raster = TRUE
+    )
+    raster <- stars::st_as_stars(raster)
+
+    avg_df <- dart_process(hcmc_lvl3_sf, raster, "GID_3", 9210)
+    # cleanup
+    unlink("vnm_lvl3", recursive = TRUE)
 }
 }

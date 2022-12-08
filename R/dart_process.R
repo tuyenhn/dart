@@ -11,16 +11,26 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' # read in gson vector
-#' hcmc_gson <- st_read(
-#'     readChar(gson_fname, file.info(gson_fname)$size),
-#'     quiet = TRUE
-#' )
-#' # read raster
-#' raster <- stars::read_stars(r_fname)
+#' if (rlang::is_installed("geodata") &&
+#'     rlang::is_installed("chirps") &&
+#'     rlang::is_installed("stars")) {
+#'     vnm_lvl3 <- geodata::gadm("VNM", level = 3, path = "vnm_lvl3")
+#'     hcmc_lvl3 <- vnm_lvl3[vnm_lvl3$NAME_1 == "Hồ Chí Minh", ]
+#'     hcmc_lvl3_sf <- sf::st_as_sf(hcmc_lvl3)
 #'
-#' avg_df <- dart_process(hcmc_gson, raster, 9210)
+#'     # read raster
+#'     raster <- chirps::get_chirps(
+#'         hcmc_lvl3,
+#'         c("2022-01-01", "2022-01-03"),
+#'         server = "CHC",
+#'         as.raster = TRUE
+#'     )
+#'     raster <- stars::st_as_stars(raster)
+#'
+#'     avg_df <- dart_process(hcmc_lvl3_sf, raster, "GID_3", 9210)
+#'
+#'     # cleanup
+#'     unlink("vnm_lvl3", recursive = TRUE)
 #' }
 dart_process <- function(sf, raster, id_col, sf_crs = 4326, null_sentinel = -9999) {
     if (!inherits(sf, "sf")) {
