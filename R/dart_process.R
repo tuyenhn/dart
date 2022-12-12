@@ -79,6 +79,9 @@ dart_process_ <- function(sf, raster, id_col, sf_crs, null_sentinel) {
         stats::na.omit() %>%
             dplyr::rename(val = colnames(.)[1])
 
+    # dropping nulls
+    df_sf <- df_sf[!(df_sf$val == null_sentinel), ]
+
     # calculate distances between centroid and pixel centroid for each
     # geometry feature
     df_sf$r_centroid <- dart_centroid(df_sf["geometry"], sf_crs)$centroid
@@ -86,9 +89,6 @@ dart_process_ <- function(sf, raster, id_col, sf_crs, null_sentinel) {
         df_sf$centroid, df_sf$r_centroid,
         by_element = TRUE
     ) %>% units::drop_units()
-
-    # dropping nulls
-    df_sf <- df_sf[!(df_sf$val == null_sentinel), ]
 
     df_sf %>%
         by(
